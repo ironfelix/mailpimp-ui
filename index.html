@@ -730,6 +730,168 @@
     .toggle.on .toggle-knob { left: 18px; }
     .toggle-label { font-size: var(--font-size-base); color: var(--color-text-secondary); }
 
+    /* ===== AI AGENT PANEL ===== */
+    .ai-fab {
+      position: fixed; bottom: 28px; right: 24px; z-index: 150;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, #7c4dff 0%, #1a73e8 100%);
+      border: none; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,77,255,.45);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .ai-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(124,77,255,.55); }
+    @media (max-width: 768px) { .ai-fab { bottom: 76px; right: 16px; width: 44px; height: 44px; } }
+
+    .ai-panel {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 360px; z-index: 140;
+      background: var(--color-bg-primary);
+      border-left: 1px solid var(--color-border-medium);
+      box-shadow: -8px 0 32px rgba(0,0,0,.1);
+      display: flex; flex-direction: column;
+      transform: translateX(360px);
+      transition: transform .22s cubic-bezier(.4,0,.2,1);
+    }
+    .ai-panel.open { transform: translateX(0); }
+    @media (max-width: 768px) {
+      .ai-panel { width: 100%; transform: translateY(100%); top: auto; height: 85vh; border-radius: 16px 16px 0 0; }
+      .ai-panel.open { transform: translateY(0); }
+    }
+
+    .ai-panel-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px; border-bottom: 1px solid var(--color-border-medium);
+      flex-shrink: 0;
+    }
+    .ai-avatar {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #7c4dff, #1a73e8);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-panel-title { font-size: 14px; font-weight: 600; flex: 1; }
+    .ai-privacy {
+      font-size: 10px; font-weight: 500; color: var(--color-success);
+      background: #e8f5e9; border: 1px solid #c8e6c9;
+      padding: 2px 7px; border-radius: 10px;
+      display: flex; align-items: center; gap: 3px;
+    }
+
+    .ai-context-bar {
+      padding: 8px 16px; background: var(--color-bg-secondary);
+      border-bottom: 1px solid var(--color-border-light);
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .ai-context-chip {
+      font-size: 11px; font-weight: 500; color: var(--color-accent);
+      background: var(--color-bg-active); border: 1px solid #c5dbfd;
+      padding: 3px 9px; border-radius: var(--radius-pill);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .ai-context-label { font-size: 11px; color: var(--color-text-tertiary); }
+
+    .ai-messages {
+      flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .ai-messages::-webkit-scrollbar { width: 4px; }
+    .ai-messages::-webkit-scrollbar-thumb { background: var(--color-border-dark); border-radius: 2px; }
+
+    .ai-msg { display: flex; gap: 8px; align-items: flex-start; }
+    .ai-msg.user { flex-direction: row-reverse; }
+    .ai-msg-avatar {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #7c4dff, #1a73e8);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-msg.user .ai-msg-avatar { background: linear-gradient(135deg, #1a73e8, #34a853); }
+    .ai-bubble {
+      max-width: 82%; padding: 10px 12px;
+      border-radius: 12px; font-size: 13px; line-height: 1.5;
+      background: var(--color-bg-secondary); color: var(--color-text-primary);
+      border: 1px solid var(--color-border-medium);
+    }
+    .ai-msg.user .ai-bubble {
+      background: var(--color-accent); color: white; border-color: var(--color-accent);
+      border-radius: 12px 12px 3px 12px;
+    }
+    .ai-msg:not(.user) .ai-bubble { border-radius: 3px 12px 12px 12px; }
+
+    .ai-action-card {
+      margin-top: 8px; padding: 10px 12px;
+      background: var(--color-bg-active);
+      border: 1px solid #c5dbfd; border-radius: var(--radius-lg);
+      font-size: 12px; color: var(--color-text-secondary);
+    }
+    .ai-action-card-title { font-weight: 600; color: var(--color-text-primary); margin-bottom: 4px; font-size: 13px; }
+    .ai-action-btns { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .ai-action-btn {
+      font-size: 11px; font-weight: 500; padding: 4px 10px;
+      border-radius: var(--radius-pill); border: 1px solid var(--color-border-dark);
+      cursor: pointer; background: var(--color-bg-primary);
+      color: var(--color-text-primary); font-family: inherit;
+      transition: all var(--transition-fast);
+    }
+    .ai-action-btn:hover { background: var(--color-bg-hover); }
+    .ai-action-btn.primary { background: var(--color-accent); color: white; border-color: var(--color-accent); }
+    .ai-action-btn.primary:hover { background: var(--color-accent-hover); }
+
+    .ai-thinking {
+      display: flex; gap: 4px; align-items: center; padding: 8px 0;
+    }
+    .ai-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--color-text-tertiary);
+      animation: aiBounce 1.2s ease-in-out infinite;
+    }
+    .ai-dot:nth-child(2) { animation-delay: .2s; }
+    .ai-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes aiBounce {
+      0%,60%,100% { transform: translateY(0); opacity:.4; }
+      30% { transform: translateY(-5px); opacity:1; }
+    }
+
+    .ai-quick-actions {
+      padding: 10px 16px; border-top: 1px solid var(--color-border-light);
+      display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0;
+    }
+    .ai-quick {
+      font-size: 11px; font-weight: 500;
+      padding: 5px 10px; border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border-dark);
+      cursor: pointer; background: var(--color-bg-primary);
+      color: var(--color-text-secondary); font-family: inherit;
+      transition: all var(--transition-fast); white-space: nowrap;
+    }
+    .ai-quick:hover { background: var(--color-bg-active); border-color: var(--color-accent); color: var(--color-accent); }
+
+    .ai-input-area {
+      padding: 12px 16px; border-top: 1px solid var(--color-border-medium);
+      display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0;
+    }
+    .ai-input {
+      flex: 1; min-height: 36px; max-height: 120px;
+      padding: 8px 12px; border: 1px solid var(--color-border-dark);
+      border-radius: 18px; font-size: 13px; font-family: inherit;
+      resize: none; outline: none; line-height: 1.4;
+      transition: border-color var(--transition-fast);
+      background: var(--color-bg-secondary);
+    }
+    .ai-input:focus { border-color: var(--color-accent); background: white; }
+    .ai-input::placeholder { color: var(--color-text-tertiary); }
+    .ai-send {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: var(--color-accent); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition-fast);
+    }
+    .ai-send:hover { background: var(--color-accent-hover); }
+
+    /* backdrop when panel open */
+    .ai-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 130;
+      background: rgba(0,0,0,.15);
+    }
+    .ai-backdrop.show { display: block; }
+    @media (min-width: 769px) { .ai-backdrop { display: none !important; } }
+
     /* ===== BOTTOM NAV (mobile only) ===== */
     .bottom-nav {
       display: none;
@@ -3210,6 +3372,123 @@
 </div>
 
 <!-- ===== BOTTOM NAVIGATION (mobile) ===== -->
+<!-- ===== AI AGENT FAB ===== -->
+<button class="ai-fab" onclick="aiToggle()" title="AI Ассистент">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+    <path d="M11 2a9 9 0 100 18A9 9 0 0011 2z" fill="rgba(255,255,255,.15)" stroke="white" stroke-width="1.5"/>
+    <path d="M7 11h8M11 7v8" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+    <circle cx="11" cy="11" r="2.5" fill="white"/>
+    <path d="M11 6V4M11 18v-2M6 11H4M18 11h-2M7.5 7.5L6 6M16 16l-1.5-1.5M14.5 7.5L16 6M6 16l1.5-1.5" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
+  </svg>
+</button>
+
+<!-- ===== AI AGENT PANEL ===== -->
+<div class="ai-backdrop" id="ai-backdrop" onclick="aiToggle()"></div>
+
+<div class="ai-panel" id="ai-panel">
+  <!-- Header -->
+  <div class="ai-panel-head">
+    <div class="ai-avatar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="6" fill="rgba(255,255,255,.15)" stroke="white" stroke-width="1.2"/>
+        <circle cx="8" cy="8" r="2" fill="white"/>
+        <path d="M8 3V1M8 15v-2M3 8H1M15 8h-2M4.6 4.6L3.2 3.2M12.8 12.8l-1.4-1.4M11.4 4.6l1.4-1.4M3.2 12.8l1.4-1.4" stroke="white" stroke-width="1.1" stroke-linecap="round" opacity=".6"/>
+      </svg>
+    </div>
+    <div class="ai-panel-title">AI Ассистент</div>
+    <div class="ai-privacy">
+      <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor"><path d="M4.5 1L2 3v2c0 1.7 1 3.2 2.5 3.8C6 8.2 7 6.7 7 5V3L4.5 1z"/></svg>
+      Нет доступа к личным данным
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="aiToggle()" style="padding:4px;width:24px;height:24px;flex-shrink:0;">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+        <path d="M2 2l8 8M10 2L2 10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Context bar -->
+  <div class="ai-context-bar">
+    <span class="ai-context-label">Сейчас смотрю:</span>
+    <span class="ai-context-chip" id="ai-context-chip">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+        <rect x="1" y="1" width="3.5" height="3.5" rx=".8"/>
+        <rect x="5.5" y="1" width="3.5" height="3.5" rx=".8"/>
+        <rect x="1" y="5.5" width="3.5" height="3.5" rx=".8"/>
+        <rect x="5.5" y="5.5" width="3.5" height="3.5" rx=".8"/>
+      </svg>
+      Главная
+    </span>
+    <span style="margin-left:auto;font-size:10px;color:var(--color-text-tertiary);">GPT-4o</span>
+  </div>
+
+  <!-- Messages -->
+  <div class="ai-messages" id="ai-messages">
+
+    <!-- Agent greeting -->
+    <div class="ai-msg">
+      <div class="ai-msg-avatar">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="white"><circle cx="6" cy="6" r="4" fill="rgba(255,255,255,.2)"/><circle cx="6" cy="6" r="1.8" fill="white"/></svg>
+      </div>
+      <div>
+        <div class="ai-bubble">
+          Привет! Вижу, ты на главной. Несколько вещей, на которые стоит обратить внимание:
+          <div class="ai-action-card">
+            <div class="ai-action-card-title">📉 CTR упал на 0.2%</div>
+            Средний CTR снизился до 3.8% за последние 30 дней. Возможная причина — усталость аудитории от темы «распродажа».
+            <div class="ai-action-btns">
+              <button class="ai-action-btn primary" onclick="aiUserMsg('Помоги поднять CTR')">Что делать?</button>
+              <button class="ai-action-btn" onclick="aiUserMsg('Покажи детальную аналитику CTR')">Аналитика →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent proactive -->
+    <div class="ai-msg">
+      <div class="ai-msg-avatar">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="white"><circle cx="6" cy="6" r="4" fill="rgba(255,255,255,.2)"/><circle cx="6" cy="6" r="1.8" fill="white"/></svg>
+      </div>
+      <div>
+        <div class="ai-bubble">
+          Ещё: у вас <strong>1 890 контактов</strong> с брошенной корзиной и нет активной автоматизации на этот сегмент. Это примерно <strong style="color:var(--color-success);">₽38–45K</strong> упущенной выручки в месяц.
+          <div class="ai-action-card">
+            <div class="ai-action-card-title">🛒 Запустить "Брошенная корзина"?</div>
+            3 письма за 48 часов. Средний OR в этой категории — 45%. Уже готовы шаблоны.
+            <div class="ai-action-btns">
+              <button class="ai-action-btn primary" onclick="aiRunScenario()">Запустить</button>
+              <button class="ai-action-btn" onclick="aiUserMsg('Покажи настройки сценария')">Настроить</button>
+              <button class="ai-action-btn" onclick="aiUserMsg('Не сейчас')">Позже</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quick actions -->
+  <div class="ai-quick-actions">
+    <button class="ai-quick" onclick="aiUserMsg('Создай рассылку на март')">+ Рассылка на март</button>
+    <button class="ai-quick" onclick="aiUserMsg('Покажи топ сегменты по OR')">Топ сегменты</button>
+    <button class="ai-quick" onclick="aiUserMsg('Что слать VIP клиентам?')">Идеи для VIP</button>
+    <button class="ai-quick" onclick="aiUserMsg('Анализ последней кампании')">Анализ кампании</button>
+  </div>
+
+  <!-- Input -->
+  <div class="ai-input-area">
+    <textarea class="ai-input" id="ai-input" placeholder="Спроси или скажи что сделать..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend()}"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <button class="ai-send" onclick="aiSend()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1.5 7h11M8 2.5L12.5 7 8 11.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <div class="bnav-pos">
@@ -3321,6 +3600,171 @@
     ftab.closest('.filter-tabs').querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
     ftab.classList.add('on');
   });
+
+  // ===== AI AGENT =====
+  const AI_SCREENS = {
+    dashboard:   'Главная',
+    campaigns:   'Кампании',
+    automations: 'Автоматизации',
+    builder:     'Редактор сценария',
+    contacts:    'Контакты',
+    templates:   'Шаблоны',
+    analytics:   'Аналитика',
+    settings:    'Настройки',
+  };
+
+  const AI_REPLIES = {
+    default: [
+      'Понял! Сейчас сделаю...',
+      'Отличная идея. Давай разберём шаги.',
+      'Смотрю данные по этому сегменту...',
+      'Готово! Вот что получилось:',
+    ],
+    'создай рассылку на март': {
+      thinking: true,
+      text: 'Создаю черновик «Мартовская распродажа» на основе февральской кампании.',
+      card: {
+        title: '✅ Черновик создан',
+        body: 'Аудитория: Все подписчики · 47 820\nДата: 1 марта 2025 · 10:00\nТема: [скопирована из февральской]',
+        actions: [
+          { label: 'Открыть редактор', primary: true, fn: "nav('campaigns', document.querySelector('[onclick*=campaigns]'))" },
+          { label: 'Изменить дату', fn: "aiUserMsg('Перенеси на 5 марта')" },
+        ]
+      }
+    },
+    'покажи топ сегменты по or': {
+      thinking: true,
+      text: 'Вот топ-3 сегмента по Open Rate за последние 30 дней:',
+      card: {
+        title: '📊 Топ сегменты',
+        body: '1. VIP клиенты — 41.2% OR\n2. После первой покупки — 38.5% OR\n3. Активные 7 дней — 34.1% OR',
+        actions: [
+          { label: 'Создать кампанию для VIP', primary: true, fn: "aiUserMsg('Создай кампанию для VIP')" },
+          { label: 'Подробная аналитика', fn: "nav('analytics', document.querySelector('[onclick*=analytics]'))" },
+        ]
+      }
+    },
+    'что слать vip клиентам?': {
+      thinking: true,
+      text: 'Анализирую историю покупок и поведение VIP сегмента...',
+      card: {
+        title: '💡 Идеи для VIP',
+        body: '• Эксклюзивный ранний доступ к новинкам\n• Персональная скидка именинника\n• Закрытая распродажа "только для своих"\n• Серия "Чем пользуются наши лучшие клиенты"',
+        actions: [
+          { label: 'Создать кампанию', primary: true, fn: "aiUserMsg('Создай кампанию для VIP')" },
+        ]
+      }
+    },
+    'помоги поднять ctr': {
+      thinking: true,
+      text: 'Провёл анализ твоих последних 7 кампаний. Нашёл паттерны:',
+      card: {
+        title: '🎯 Рекомендации по CTR',
+        body: '• Кнопки с конкретной выгодой работают на 34% лучше ("Скидка 20%" > "Купить")\n• Одна CTA-кнопка > три кнопки (рассеивание внимания)\n• Превью ссылки в письме повышает клики на 18%',
+        actions: [
+          { label: 'Применить к следующей', primary: true, fn: "aiUserMsg('Создай кампанию с лучшим CTR')" },
+          { label: 'A/B тест', fn: "nav('campaigns', document.querySelector('[onclick*=campaigns]'))" },
+        ]
+      }
+    },
+  };
+
+  let aiOpen = false;
+
+  function aiToggle() {
+    aiOpen = !aiOpen;
+    document.getElementById('ai-panel').classList.toggle('open', aiOpen);
+    document.getElementById('ai-backdrop').classList.toggle('show', aiOpen);
+    if (aiOpen) setTimeout(() => document.getElementById('ai-input').focus(), 300);
+  }
+
+  function aiAddMsg(html, isUser = false) {
+    const messages = document.getElementById('ai-messages');
+    const wrap = document.createElement('div');
+    wrap.className = 'ai-msg' + (isUser ? ' user' : '');
+    const avatarSvg = isUser
+      ? '<svg width="12" height="12" viewBox="0 0 12 12" fill="white"><circle cx="6" cy="4" r="2.5"/><path d="M1 11c0-2.5 2-4 5-4s5 1.5 5 4" stroke="white" stroke-width="1.2" fill="none"/></svg>'
+      : '<svg width="12" height="12" viewBox="0 0 12 12" fill="white"><circle cx="6" cy="6" r="4" fill="rgba(255,255,255,.2)"/><circle cx="6" cy="6" r="1.8" fill="white"/></svg>';
+    wrap.innerHTML = `<div class="ai-msg-avatar">${avatarSvg}</div><div>${html}</div>`;
+    messages.appendChild(wrap);
+    messages.scrollTop = messages.scrollHeight;
+    return wrap;
+  }
+
+  function aiThinking() {
+    return aiAddMsg(`<div class="ai-bubble"><div class="ai-thinking">
+      <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+    </div></div>`);
+  }
+
+  function aiReply(text, card) {
+    let cardHTML = '';
+    if (card) {
+      const btns = (card.actions || []).map(a =>
+        `<button class="ai-action-btn ${a.primary ? 'primary' : ''}" onclick="${a.fn}">${a.label}</button>`
+      ).join('');
+      cardHTML = `<div class="ai-action-card">
+        <div class="ai-action-card-title">${card.title}</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);white-space:pre-line;margin-top:4px;">${card.body}</div>
+        ${btns ? '<div class="ai-action-btns">' + btns + '</div>' : ''}
+      </div>`;
+    }
+    return `<div class="ai-bubble">${text}${cardHTML}</div>`;
+  }
+
+  function aiUserMsg(text) {
+    if (!aiOpen) aiToggle();
+    aiAddMsg(`<div class="ai-bubble">${text}</div>`, true);
+    const key = text.toLowerCase().trim();
+    const reply = AI_REPLIES[key] || { text: AI_REPLIES.default[Math.floor(Math.random()*4)] };
+    const thinkEl = aiThinking();
+    const delay = reply.thinking ? 1400 : 600;
+    setTimeout(() => {
+      thinkEl.remove();
+      aiAddMsg(aiReply(reply.text || reply, reply.card));
+    }, delay);
+  }
+
+  function aiSend() {
+    const input = document.getElementById('ai-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.style.height = 'auto';
+    aiUserMsg(text);
+  }
+
+  function aiRunScenario() {
+    const thinkEl = aiThinking();
+    setTimeout(() => {
+      thinkEl.remove();
+      aiAddMsg(aiReply(
+        'Запускаю автоматизацию «Брошенная корзина»...',
+        {
+          title: '✅ Автоматизация активирована',
+          body: '3 письма · 48 часов · 1 890 контактов в очереди\nПервое письмо уйдёт через 1 час после бездействия.',
+          actions: [
+            { label: 'Открыть в редакторе', primary: true, fn: "nav('builder', document.querySelector('[onclick*=automations]'))" },
+            { label: 'Статистика позже', fn: '' },
+          ]
+        }
+      ));
+    }, 1800);
+  }
+
+  // Sync context chip with current screen
+  const _origNav = nav;
+  window.nav = function(screenId, el) {
+    _origNav(screenId, el);
+    const chip = document.getElementById('ai-context-chip');
+    if (chip) {
+      const name = AI_SCREENS[screenId] || screenId;
+      chip.innerHTML = `<svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+        <rect x="1" y="1" width="3.5" height="3.5" rx=".8"/><rect x="5.5" y="1" width="3.5" height="3.5" rx=".8"/>
+        <rect x="1" y="5.5" width="3.5" height="3.5" rx=".8"/><rect x="5.5" y="5.5" width="3.5" height="3.5" rx=".8"/>
+      </svg> ${name}`;
+    }
+  };
 </script>
 </body>
 </html>
